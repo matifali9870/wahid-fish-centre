@@ -235,6 +235,10 @@ function App() {
     }
   };
 
+  // ------------------------------------------
+  // DIRECT ORDER
+  // ------------------------------------------
+
   const sendDirectOrderToWhatsApp = () => {
     if (!selected || !selectedWeight) return;
 
@@ -253,60 +257,68 @@ function App() {
     const calculatedPrice =
       selected.price * quantityValue;
 
+    const quantityLabel = getQuantityLabel();
+
     let message =
-      'Hello Wahid Fish Centre, I want to place an order:\n\n';
-
-    message += `Product: ${selected.name}\n`;
-    message += `Quantity: ${getQuantityLabel()}\n`;
-    message += `Rate shown on website: ₹${formatPrice(
-      selected.price
-    )}/${selected.unit}\n`;
-
-    message += `Estimated Price: ₹${formatPrice(
-      calculatedPrice
-    )}\n\n`;
-
-    message += 'Delivery: FREE in Delhi NCR\n\n';
+      'Hello Wahid Fish Centre! 🐟\n' +
+      'I would like to order:\n\n';
 
     message +=
-      'Please confirm the latest market price, availability, exact weight and final price.';
+      `Item: ${selected.name} (₹${formatPrice(
+        selected.price
+      )}/${selected.unit})\n`;
+
+    message +=
+      `Quantity: ${quantityLabel}\n\n`;
+
+    message +=
+      'Please confirm availability. Thanks!';
 
     openWhatsApp(message);
 
     closeModal();
   };
 
+  // ------------------------------------------
+  // CART ORDER
+  // ------------------------------------------
+
   const sendCartToWhatsApp = () => {
     if (cart.length === 0) return;
 
     let message =
-      'Hello Wahid Fish Centre, I want to place an order:\n\n';
+      'Hello Wahid Fish Centre! 🐟\n' +
+      'I would like to order:\n\n';
 
     let totalAmount = 0;
 
     cart.forEach((item, index) => {
-      message += `${index + 1}. ${item.product.name}\n`;
-      message += `   Quantity: ${item.weightLabel}\n`;
+      message +=
+        `${index + 1}. ${item.product.name} ` +
+        `(₹${formatPrice(
+          item.product.price
+        )}/${item.product.unit})\n`;
 
-      message += `   Rate shown on website: ₹${formatPrice(
-        item.product.price
-      )}/${item.product.unit}\n`;
+      message +=
+        `Quantity: ${item.weightLabel}\n`;
 
-      message += `   Estimated Price: ₹${formatPrice(
-        item.price
-      )}\n\n`;
+      message +=
+        `Estimated Price: ₹${formatPrice(
+          item.price
+        )}\n\n`;
 
       totalAmount += item.price;
     });
 
-    message += `Estimated Total: ₹${formatPrice(
-      totalAmount
-    )}\n\n`;
-
-    message += 'Delivery: FREE in Delhi NCR\n\n';
+    if (cart.length > 1) {
+      message +=
+        `Estimated Total: ₹${formatPrice(
+          totalAmount
+        )}\n\n`;
+    }
 
     message +=
-      'Please confirm the latest market price, availability, exact weight and final price.';
+      'Please confirm availability. Thanks!';
 
     openWhatsApp(message);
   };
@@ -767,9 +779,7 @@ function App() {
                       Market price may vary
                     </div>
 
-                    {/* ==================================
-                        THREE PRODUCT BUTTONS
-                    ================================== */}
+                    {/* THREE PRODUCT BUTTONS */}
 
                     <div
                       className="card-actions"
@@ -780,8 +790,6 @@ function App() {
                         marginTop: '12px',
                       }}
                     >
-
-                      {/* DETAILS */}
 
                       <button
                         className="btn btn-outline full"
@@ -798,8 +806,6 @@ function App() {
                         Details
                       </button>
 
-                      {/* ADD TO CART */}
-
                       <button
                         className="btn btn-primary full"
                         style={{
@@ -814,8 +820,6 @@ function App() {
                       >
                         Add to Cart
                       </button>
-
-                      {/* ORDER NOW */}
 
                       <button
                         className="btn btn-whatsapp full"
@@ -1484,9 +1488,7 @@ function App() {
                 WhatsApp us for the latest price.
               </div>
 
-              {/* ==================================
-                  DETAILS MODE
-              ================================== */}
+              {/* DETAILS MODE */}
 
               {modalAction === 'details' ? (
 
@@ -1551,9 +1553,8 @@ function App() {
               ) : (
 
                 <>
-                  {/* ==================================
-                      QUANTITY SELECTION
-                  ================================== */}
+
+                  {/* QUANTITY SELECTION */}
 
                   <div
                     style={{
@@ -1618,9 +1619,7 @@ function App() {
 
                     </div>
 
-                    {/* ==================================
-                        CUSTOM MORE THAN 2 KG
-                    ================================== */}
+                    {/* CUSTOM MORE THAN 2 KG */}
 
                     {isCustomQuantity && (
 
@@ -1680,9 +1679,7 @@ function App() {
 
                   </div>
 
-                  {/* ==================================
-                      AUTOMATIC PRICE
-                  ================================== */}
+                  {/* AUTOMATIC PRICE */}
 
                   <div
                     style={{
