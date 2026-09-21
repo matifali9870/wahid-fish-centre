@@ -15,9 +15,21 @@ function formatPrice(price: number) {
 
 function orderOnWhatsApp(product: Product) {
   const unitText = product.unit === 'kg' ? 'per kg' : 'per piece';
+
   const message = `Hello Wahid Fish Centre, I want to order ${product.name}. Listed price: ₹${formatPrice(product.price)} ${unitText}. Please confirm availability.`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
+
+  const encodedMessage = encodeURIComponent(message);
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    window.location.href = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+  } else {
+    window.open(
+      `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`,
+      '_blank'
+    );
+  }
 }
 
 function App() {
