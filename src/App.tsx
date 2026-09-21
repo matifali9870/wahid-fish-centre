@@ -97,9 +97,9 @@ function App() {
     setCustomQuantity('');
 
     if (product.unit === 'kg') {
-      setSelectedWeight(kgOptions[3]); // Default: 1 kg
+      setSelectedWeight(kgOptions[3]);
     } else {
-      setSelectedWeight(pieceOptions[0]); // Default: 1 piece
+      setSelectedWeight(pieceOptions[0]);
     }
   };
 
@@ -179,15 +179,12 @@ function App() {
       return;
     }
 
-    const calculatedPrice =
-      selected.price * quantityValue;
-
     const newItem: CartItem = {
       id: `${selected.id}-${quantityValue}-${Date.now()}`,
       product: selected,
       weightLabel: getQuantityLabel(),
       quantityValue,
-      price: calculatedPrice,
+      price: selected.price * quantityValue,
     };
 
     setCart((previousCart) => [
@@ -235,10 +232,6 @@ function App() {
     }
   };
 
-  // ------------------------------------------
-  // DIRECT ORDER
-  // ------------------------------------------
-
   const sendDirectOrderToWhatsApp = () => {
     if (!selected || !selectedWeight) return;
 
@@ -257,68 +250,60 @@ function App() {
     const calculatedPrice =
       selected.price * quantityValue;
 
-    const quantityLabel = getQuantityLabel();
-
     let message =
-      'Hello Wahid Fish Centre! 🐟\n' +
-      'I would like to order:\n\n';
+      'Hello Wahid Fish Centre, I want to place an order:\n\n';
+
+    message += `Product: ${selected.name}\n`;
+    message += `Quantity: ${getQuantityLabel()}\n`;
+    message += `Rate shown on website: ₹${formatPrice(
+      selected.price
+    )}/${selected.unit}\n`;
+
+    message += `Estimated Price: ₹${formatPrice(
+      calculatedPrice
+    )}\n\n`;
+
+    message += 'Delivery: FREE in Delhi NCR\n\n';
 
     message +=
-      `Item: ${selected.name} (₹${formatPrice(
-        selected.price
-      )}/${selected.unit})\n`;
-
-    message +=
-      `Quantity: ${quantityLabel}\n\n`;
-
-    message +=
-      'Please confirm availability. Thanks!';
+      'Please confirm the latest market price, availability, exact weight and final price.';
 
     openWhatsApp(message);
 
     closeModal();
   };
 
-  // ------------------------------------------
-  // CART ORDER
-  // ------------------------------------------
-
   const sendCartToWhatsApp = () => {
     if (cart.length === 0) return;
 
     let message =
-      'Hello Wahid Fish Centre! 🐟\n' +
-      'I would like to order:\n\n';
+      'Hello Wahid Fish Centre, I want to place an order:\n\n';
 
     let totalAmount = 0;
 
     cart.forEach((item, index) => {
-      message +=
-        `${index + 1}. ${item.product.name} ` +
-        `(₹${formatPrice(
-          item.product.price
-        )}/${item.product.unit})\n`;
+      message += `${index + 1}. ${item.product.name}\n`;
+      message += `   Quantity: ${item.weightLabel}\n`;
 
-      message +=
-        `Quantity: ${item.weightLabel}\n`;
+      message += `   Rate shown on website: ₹${formatPrice(
+        item.product.price
+      )}/${item.product.unit}\n`;
 
-      message +=
-        `Estimated Price: ₹${formatPrice(
-          item.price
-        )}\n\n`;
+      message += `   Estimated Price: ₹${formatPrice(
+        item.price
+      )}\n\n`;
 
       totalAmount += item.price;
     });
 
-    if (cart.length > 1) {
-      message +=
-        `Estimated Total: ₹${formatPrice(
-          totalAmount
-        )}\n\n`;
-    }
+    message += `Estimated Total: ₹${formatPrice(
+      totalAmount
+    )}\n\n`;
+
+    message += 'Delivery: FREE in Delhi NCR\n\n';
 
     message +=
-      'Please confirm availability. Thanks!';
+      'Please confirm the latest market price, availability, exact weight and final price.';
 
     openWhatsApp(message);
   };
@@ -1107,8 +1092,6 @@ function App() {
               (WhatsApp)
 
             </p>
-
-            {/* Replace this number with your second phone number */}
 
             <p
               style={{
