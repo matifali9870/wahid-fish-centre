@@ -173,7 +173,9 @@ function App() {
     }
 
     if (isCustomQuantity && quantityValue <= 2) {
-      alert('For More than 2 kg, please enter a quantity above 2 kg.');
+      alert(
+        'For More than 2 kg, please enter a quantity above 2 kg.'
+      );
       return;
     }
 
@@ -256,7 +258,10 @@ function App() {
 
     message += `Product: ${selected.name}\n`;
     message += `Quantity: ${getQuantityLabel()}\n`;
-    message += `Rate: ₹${formatPrice(selected.price)}/${selected.unit}\n`;
+    message += `Rate shown on website: ₹${formatPrice(
+      selected.price
+    )}/${selected.unit}\n`;
+
     message += `Estimated Price: ₹${formatPrice(
       calculatedPrice
     )}\n\n`;
@@ -264,7 +269,7 @@ function App() {
     message += 'Delivery: FREE in Delhi NCR\n\n';
 
     message +=
-      'Please confirm availability, exact weight and final price.';
+      'Please confirm the latest market price, availability, exact weight and final price.';
 
     openWhatsApp(message);
 
@@ -282,9 +287,11 @@ function App() {
     cart.forEach((item, index) => {
       message += `${index + 1}. ${item.product.name}\n`;
       message += `   Quantity: ${item.weightLabel}\n`;
-      message += `   Rate: ₹${formatPrice(
+
+      message += `   Rate shown on website: ₹${formatPrice(
         item.product.price
       )}/${item.product.unit}\n`;
+
       message += `   Estimated Price: ₹${formatPrice(
         item.price
       )}\n\n`;
@@ -299,7 +306,7 @@ function App() {
     message += 'Delivery: FREE in Delhi NCR\n\n';
 
     message +=
-      'Please confirm availability, exact weight and final price.';
+      'Please confirm the latest market price, availability, exact weight and final price.';
 
     openWhatsApp(message);
   };
@@ -345,10 +352,15 @@ function App() {
             href="#top"
             aria-label="Wahid Fish Centre home"
           >
-            <span className="brand-mark">W</span>
+            <span className="brand-mark">
+              W
+            </span>
 
             <span>
-              <strong>Wahid Fish Centre</strong>
+              <strong>
+                Wahid Fish Centre
+              </strong>
+
               <small>
                 Fresh • Quality • Direct Order
               </small>
@@ -359,9 +371,17 @@ function App() {
             className="nav"
             aria-label="Main navigation"
           >
-            <a href="#products">Products</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="#products">
+              Products
+            </a>
+
+            <a href="#about">
+              About
+            </a>
+
+            <a href="#contact">
+              Contact
+            </a>
           </nav>
 
           <a
@@ -592,6 +612,33 @@ function App() {
 
           </div>
 
+          {/* MARKET PRICE NOTICE */}
+
+          <div
+            style={{
+              marginBottom: '24px',
+              padding: '14px 18px',
+              borderRadius: '10px',
+              backgroundColor: '#171717',
+              border: '1px solid #333',
+              color: '#bbb',
+              lineHeight: 1.6,
+              fontSize: '14px',
+            }}
+          >
+            <strong
+              style={{
+                color: '#fff',
+              }}
+            >
+              Price Notice:
+            </strong>{' '}
+            Prices shown on the website are indicative and
+            may change according to current market rates.
+            Please WhatsApp us for the latest price before
+            placing your order.
+          </div>
+
           <div className="catalogue-tools">
 
             <label className="search-box">
@@ -644,7 +691,8 @@ function App() {
           </div>
 
           <div className="product-count">
-            Showing <strong>
+            Showing{' '}
+            <strong>
               {filteredProducts.length}
             </strong>{' '}
             of {products.length} products
@@ -666,7 +714,10 @@ function App() {
                   <button
                     className="image-button"
                     onClick={() =>
-                      openModal(product, 'details')
+                      openModal(
+                        product,
+                        'details'
+                      )
                     }
                     aria-label={`View ${product.name}`}
                   >
@@ -706,6 +757,16 @@ function App() {
 
                     </div>
 
+                    <div
+                      style={{
+                        fontSize: '12px',
+                        color: '#777',
+                        marginTop: '5px',
+                      }}
+                    >
+                      Market price may vary
+                    </div>
+
                     {/* ==================================
                         THREE PRODUCT BUTTONS
                     ================================== */}
@@ -724,7 +785,9 @@ function App() {
 
                       <button
                         className="btn btn-outline full"
-                        style={{ width: '100%' }}
+                        style={{
+                          width: '100%',
+                        }}
                         onClick={() =>
                           openModal(
                             product,
@@ -739,7 +802,9 @@ function App() {
 
                       <button
                         className="btn btn-primary full"
-                        style={{ width: '100%' }}
+                        style={{
+                          width: '100%',
+                        }}
                         onClick={() =>
                           openModal(
                             product,
@@ -824,6 +889,19 @@ function App() {
               🚚 FREE Delivery available in Delhi NCR.
             </p>
 
+            <p
+              style={{
+                color: '#999',
+                fontSize: '14px',
+                lineHeight: 1.6,
+              }}
+            >
+              Product prices shown on this website are
+              indicative and may vary according to current
+              market rates. Please WhatsApp us for the
+              latest price and final order confirmation.
+            </p>
+
           </div>
 
         </section>
@@ -863,6 +941,18 @@ function App() {
                 }}
               >
                 🚚 FREE Delivery in Delhi NCR
+              </p>
+
+              <p
+                style={{
+                  color: '#999',
+                  fontSize: '14px',
+                  lineHeight: 1.6,
+                }}
+              >
+                Website prices are indicative. Market
+                prices can change. WhatsApp us for the
+                latest price before ordering.
               </p>
 
             </div>
@@ -940,7 +1030,9 @@ function App() {
                 fontSize: '16px',
               }}
             >
-              <strong>📍 Address:</strong>{' '}
+              <strong>
+                📍 Address:
+              </strong>{' '}
               Block - A, Gazipur Fish Market,
               Delhi - 110002
             </p>
@@ -951,7 +1043,9 @@ function App() {
                 fontSize: '16px',
               }}
             >
-              <strong>📧 Email:</strong>{' '}
+              <strong>
+                📧 Email:
+              </strong>{' '}
 
               <a
                 href="mailto:wahid.fish.center@gmail.com"
@@ -962,6 +1056,7 @@ function App() {
               >
                 wahid.fish.center@gmail.com
               </a>
+
             </p>
 
           </div>
@@ -1269,8 +1364,10 @@ function App() {
                   marginTop: '10px',
                 }}
               >
-                *Final price may vary based on exact
-                weight, availability and preparation.
+                *Website prices are indicative.
+                Final price may vary according to
+                current market rate, exact weight,
+                availability and preparation.
               </p>
 
               <button
@@ -1368,6 +1465,24 @@ function App() {
                   /{selected.unit}
                 </span>
               </p>
+
+              {/* MARKET PRICE NOTICE */}
+
+              <div
+                style={{
+                  marginTop: '12px',
+                  padding: '12px',
+                  backgroundColor: '#171717',
+                  borderRadius: '8px',
+                  color: '#aaa',
+                  fontSize: '13px',
+                  lineHeight: 1.5,
+                }}
+              >
+                Website price is indicative and may
+                change according to current market rates.
+                WhatsApp us for the latest price.
+              </div>
 
               {/* ==================================
                   DETAILS MODE
