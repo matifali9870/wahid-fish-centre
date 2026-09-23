@@ -21,11 +21,8 @@ function formatPrice(price: number) {
 
 // Quantity options for products sold by kg
 const kgOptions = [
-  { label: '250g', value: 0.25 },
   { label: '500g', value: 0.5 },
-  { label: '750g', value: 0.75 },
   { label: '1 kg', value: 1 },
-  { label: '1.5 kg', value: 1.5 },
   { label: '2 kg', value: 2 },
   { label: 'More than 2 kg', value: 0 },
 ];
@@ -247,26 +244,16 @@ function App() {
       return;
     }
 
-    const calculatedPrice =
-      selected.price * quantityValue;
-
+    
     let message =
-      'Hello Wahid Fish Centre, I want to place an order:\n\n';
+      'Hello Wahid Fish Centre! 🐟\n' +
+      'I would like to order:\n\n';
 
-    message += `Product: ${selected.name}\n`;
-    message += `Quantity: ${getQuantityLabel()}\n`;
-    message += `Rate shown on website: ₹${formatPrice(
+    message += `Item: ${selected.name} (₹${formatPrice(
       selected.price
-    )}/${selected.unit}\n`;
-
-    message += `Estimated Price: ₹${formatPrice(
-      calculatedPrice
-    )}\n\n`;
-
-    message += 'Delivery: FREE in Delhi NCR\n\n';
-
-    message +=
-      'Please confirm the latest market price, availability, exact weight and final price.';
+    )}/${selected.unit})\n`;
+    message += `Quantity: ${getQuantityLabel()}\n\n`;
+    message += 'Please confirm delivery time. Thanks!';
 
     openWhatsApp(message);
 
@@ -277,7 +264,8 @@ function App() {
     if (cart.length === 0) return;
 
     let message =
-      'Hello Wahid Fish Centre, I want to place an order:\n\n';
+      'Hello Wahid Fish Centre! 🐟\n' +
+      'I would like to order:\n\n';
 
     let totalAmount = 0;
 
@@ -362,6 +350,21 @@ function App() {
                 Fresh • Quality • Direct Order
               </small>
             </span>
+          </a>
+
+          <a
+            href="tel:+919717785423"
+            aria-label="Call Wahid Fish Centre"
+            style={{
+              color: '#22c55e',
+              textDecoration: 'none',
+              fontWeight: '700',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+              marginLeft: '14px',
+            }}
+          >
+            📞 +91 9717785423
           </a>
 
           <nav
@@ -1408,6 +1411,10 @@ function App() {
             onClick={(e) =>
               e.stopPropagation()
             }
+            style={{
+              maxHeight: '92vh',
+              overflowY: 'auto',
+            }}
           >
 
             <button
@@ -1420,16 +1427,31 @@ function App() {
 
             {/* PRODUCT IMAGE */}
 
-            <img
-              src={selected.image}
-              alt={selected.name}
-              loading="lazy"
+            <div
               style={{
                 width: '100%',
-                aspectRatio: '16 / 10',
-                objectFit: 'cover',
+                minHeight: '220px',
+                maxHeight: '60vh',
+                backgroundColor: '#050505',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
               }}
-            />
+            >
+              <img
+                src={selected.image}
+                alt={selected.name}
+                loading="lazy"
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: '100%',
+                  maxHeight: '60vh',
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
 
             <div className="modal-content">
 
@@ -1530,6 +1552,17 @@ function App() {
                     </button>
 
                   </div>
+
+                  <button
+                    className="btn btn-outline full"
+                    onClick={closeModal}
+                    type="button"
+                    style={{
+                      marginTop: '10px',
+                    }}
+                  >
+                    ← Back to Products
+                  </button>
 
                 </>
 
@@ -1726,6 +1759,19 @@ function App() {
                     {modalAction === 'order'
                       ? 'Order Now on WhatsApp'
                       : 'Add to Cart'}
+                  </button>
+
+                  <button
+                    className="btn btn-outline full"
+                    onClick={() => setModalAction('details')}
+                    type="button"
+                    style={{
+                      marginTop: '10px',
+                      fontSize: '15px',
+                      padding: '12px',
+                    }}
+                  >
+                    ← Back to Details
                   </button>
 
                 </>
