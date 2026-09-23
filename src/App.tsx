@@ -244,7 +244,6 @@ function App() {
       return;
     }
 
-    
     let message =
       'Hello Wahid Fish Centre! 🐟\n' +
       'I would like to order:\n\n';
@@ -1412,18 +1411,13 @@ function App() {
               e.stopPropagation()
             }
             style={{
-              maxHeight: '92vh',
+              height: 'calc(100vh - 24px)',
+              maxHeight: 'calc(100vh - 24px)',
               overflowY: 'auto',
+              boxSizing: 'border-box',
+              margin: '12px 0',
             }}
           >
-
-            <button
-              className="modal-close"
-              onClick={closeModal}
-              aria-label="Close"
-            >
-              ×
-            </button>
 
             {/* PRODUCT IMAGE */}
 
@@ -1431,7 +1425,7 @@ function App() {
               style={{
                 width: '100%',
                 minHeight: '220px',
-                maxHeight: '60vh',
+                maxHeight: '45vh',
                 backgroundColor: '#050505',
                 display: 'flex',
                 alignItems: 'center',
@@ -1447,7 +1441,7 @@ function App() {
                   display: 'block',
                   width: '100%',
                   height: '100%',
-                  maxHeight: '60vh',
+                  maxHeight: '45vh',
                   objectFit: 'contain',
                 }}
               />
@@ -1459,13 +1453,47 @@ function App() {
                 {selected.category}
               </span>
 
-              <h2
+              <div
                 style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
                   marginBottom: '10px',
                 }}
               >
-                {selected.name}
-              </h2>
+                <h2
+                  style={{
+                    margin: 0,
+                    flex: 1,
+                  }}
+                >
+                  {selected.name}
+                </h2>
+
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  aria-label="Close product details"
+                  style={{
+                    flexShrink: 0,
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: '1px solid #444',
+                    backgroundColor: '#171717',
+                    color: '#fff',
+                    fontSize: '26px',
+                    lineHeight: 1,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  ×
+                </button>
+              </div>
 
               <p className="modal-price">
                 ₹{formatPrice(selected.price)}
